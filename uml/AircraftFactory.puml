@@ -1,0 +1,74 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Game{}
+
+Game --> AircraftFactory
+Game --> AbstractAircraft
+
+abstract class AbstractAircraft
+{
+	# maxHp:int
+    # hp:int
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + decreaseHp(int decrease):void
+    + getHp():int
+    + {abstract} shoot():List<BaseBullet>
+ }
+
+interface AircraftFactory
+{
+    createAircraft():AbstractAircraft
+}
+
+AbstractAircraft <|-- MobEnemy
+AbstractAircraft <|-- EliteEnemy
+AbstractAircraft <|-- BossEnemy
+
+AircraftFactory <|.. MobEnemyFactory
+AircraftFactory <|.. EliteEnemyFactory
+AircraftFactory <|.. BossEnemyFactory
+
+MobEnemy <.. MobEnemyFactory
+EliteEnemy <.. EliteEnemyFactory
+BossEnemy <.. BossEnemyFactory
+
+class MobEnemy {
+    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+}
+
+class EliteEnemy {
+    - shootNum:int
+    - power:int
+    - direction:int
+    - bulletSpeedX:int
+    - bulletSpeedY:int
+    - dropRate:double
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int bulletSpeedX, int bulletSpeedY)
+    + forward():void
+    + createProp():AbstractProp
+    + shoot():List<BaseBullet>
+    + getDropRate():double
+}
+
+class BossEnemy {
+    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+}
+
+class MobEnemyFactory {
+    + createAircraft():AbstractAircraft
+}
+
+class EliteEnemyFactory {
+    + createAircraft():AbstractAircraft
+}
+
+class BossEnemyFactory {
+    + createAircraft():AbstractAircraft
+}
+
+@enduml

@@ -1,0 +1,64 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class EliteEnemy{}
+
+EliteEnemy --> AbstractProp
+EliteEnemy --> PropFactory
+
+abstract class AbstractProp
+{
+    + {static}genBloodRate:double
+    + {static}genBombRate:double
+    + {static}genBulletRate:double
+    + AbstractProp(int locationX, int locationY, int speedX, int speedY)
+    + forward():void
+    + {abstract} effect(Object obj):void
+}
+
+interface PropFactory
+{
+    createProp(AbstractAircraft abstractAircraft):AbstractProp
+}
+
+AbstractProp <|-- PropBlood
+AbstractProp <|-- PropBomb
+AbstractProp <|-- PropBullet
+
+PropFactory <|.. PropBloodFactory
+PropFactory <|.. PropBombFactory
+PropFactory <|.. PropBulletFactory
+
+PropBlood <.. PropBloodFactory
+PropBomb <.. PropBombFactory
+PropBullet <.. PropBulletFactory
+
+class PropBlood {
+    - recoverNum:int
+    + PropBlood(int locationX, int locationY, int speedX, int speedY)
+    + effect(Object obj):void
+}
+
+class PropBomb {
+    + PropBomb(int locationX, int locationY, int speedX, int speedY)
+    + effect(Object obj):void
+}
+
+class PropBullet {
+    + PropBullet(int locationX, int locationY, int speedX, int speedY)
+    + effect(Object obj):void
+}
+
+class PropBloodFactory {
+    + createProp(AbstractAircraft abstractAircraft):AbstractProp
+}
+
+class PropBombFactory {
+    + createProp(AbstractAircraft abstractAircraft):AbstractProp
+}
+
+class PropBulletFactory {
+    + createProp(AbstractAircraft abstractAircraft):AbstractProp
+}
+
+@enduml
