@@ -59,8 +59,17 @@ public class Game extends JPanel {
         enemyBullets = new LinkedList<>();
         props = new LinkedList<>();
 
+        ThreadFactory gameThread =  new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread t = new Thread(r);
+                t.setName("game thread");
+                return t;
+            }
+        };
+
         //Scheduled 线程池，用于定时任务调度
-        executorService = new ScheduledThreadPoolExecutor(1);
+        executorService = new ScheduledThreadPoolExecutor(1,gameThread);
 
         //启动英雄机鼠标监听
         new HeroController(this, heroAircraft);
@@ -81,10 +90,11 @@ public class Game extends JPanel {
                 System.out.println(time);
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    if(Math.random() < eliteEnemyRate)
+                    if(Math.random() < eliteEnemyRate) {
                         enemyAircrafts.add(new EliteEnemyFactory().createAircraft());
-                    else
+                    } else {
                         enemyAircrafts.add(new MobEnemyFactory().createAircraft());
+                    }
 
                 }
                 // 飞机射出子弹
@@ -144,8 +154,9 @@ public class Game extends JPanel {
 
     private void shootAction() {
         // TODO 敌机射击
-        for(AbstractAircraft enemy : enemyAircrafts)
+        for(AbstractAircraft enemy : enemyAircrafts) {
             enemyBullets.addAll(enemy.shoot());
+        }
 
         // 英雄射击
         heroBullets.addAll(heroAircraft.shoot());
@@ -209,12 +220,14 @@ public class Game extends JPanel {
                     if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
                         if(enemyAircraft instanceof EliteEnemy){
-                            if(Math.random() < ((EliteEnemy) enemyAircraft).getDropRate())
+                            if(Math.random() < ((EliteEnemy) enemyAircraft).getDropRate()) {
                                 props.add(((EliteEnemy) enemyAircraft).createProp());
+                            }
                             score += 20;
                         }
-                        else
+                        else {
                             score +=10;
+                        }
                     }
                 }
                 // 英雄机 与 敌机 相撞，均损毁

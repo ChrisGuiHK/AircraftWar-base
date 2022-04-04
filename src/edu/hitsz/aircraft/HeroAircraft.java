@@ -45,10 +45,11 @@ public class HeroAircraft extends AbstractAircraft {
     }
 
     public void setHp(int hp){
-        if(hp > maxHp)
+        if(hp > maxHp) {
             this.hp = maxHp;
-        else
+        } else {
             this.hp = hp;
+        }
     }
 
     @Override
