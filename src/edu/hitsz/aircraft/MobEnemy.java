@@ -29,7 +29,8 @@ public class MobEnemy extends AbstractAircraft {
 
     @Override
     public List<BaseBullet> shoot() {
-        return new LinkedList<>();
+        ShootContext shootContext = new ShootContext(new NullShootStrategy());
+        return shootContext.executeStrategy(this);
     }
 
 }

@@ -18,24 +18,38 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     protected int maxHp;
     protected int hp;
 
+    protected int shootNum = 0;     //子弹一次发射数量
+    protected int power = 0;       //子弹伤害
+    protected int direction = 0;  //子弹射击方向 (向上发射：1，向下发射：-1)
+
     public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY);
         this.hp = hp;
         this.maxHp = hp;
     }
 
-    public void decreaseHp(int decrease){
-        hp -= decrease;
-        if(hp <= 0){
-            hp=0;
-            vanish();
-        }
-    }
-
     public int getHp() {
         return hp;
     }
 
+    public void setHp(int hp) {
+        if(hp > maxHp) {
+            this.hp = maxHp;
+        } else if(hp <= 0){
+            this.hp =0;
+            vanish();
+        } else {
+            this.hp = hp;
+        }
+    }
+
+    public int getShootNum() {return shootNum;}
+
+    public void setShootNum(int shootNum) {this.shootNum = shootNum;}
+
+    public int getPower() {return power;}
+
+    public int getDirection() {return direction;}
 
     /**
      * 飞机射击方法，可射击对象必须实现

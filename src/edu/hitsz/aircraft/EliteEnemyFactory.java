@@ -10,8 +10,8 @@ public class EliteEnemyFactory implements AircraftFactory{
         return new EliteEnemy(
                 (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()))*1,
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
-                0,
                 5,
-                30);
+                5,
+                60);
     }
 }

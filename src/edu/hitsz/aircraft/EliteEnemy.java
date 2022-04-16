@@ -7,18 +7,18 @@ import edu.hitsz.prop.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class EliteEnemy extends AbstractAircraft{
 
-    private int shootNum = 1;     //子弹一次发射数量
-    private int power = 10;       //子弹伤害
-    private int direction = 1;  //子弹射击方向 (向上发射：1，向下发射：-1)
-    private int bulletSpeedX;   //子弹x方向速度
-    private int bulletSpeedY;   //子弹y方向速度
-    private double dropRate = 0.3;  //道具掉落率
+
+    private double dropRate = 0.6;  //道具掉落率
 
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
+        shootNum = 1;
+        power = 10;
+        direction = 1;
     }
 
     @Override
@@ -30,7 +30,8 @@ public class EliteEnemy extends AbstractAircraft{
     }
 
     public AbstractProp createProp() {
-        double random = Math.random();
+        Random r = new Random();
+        double random = r.nextDouble();
         PropFactory propFactory;
         if(random < AbstractProp.genBloodRate){
             propFactory = new PropBloodFactory();
@@ -44,19 +45,8 @@ public class EliteEnemy extends AbstractAircraft{
 
     @Override
     public List<BaseBullet> shoot() {
-        List<BaseBullet> res = new LinkedList<>();
-        int x = this.getLocationX();
-        int y = this.getLocationY() + direction*2;
-        BaseBullet baseBullet;
-        bulletSpeedX = 0;
-        bulletSpeedY = this.getSpeedY() + 5*direction;
-        for(int i=0; i<shootNum; i++){
-            // 子弹发射位置相对飞机位置向前偏移
-            // 多个子弹横向分散
-            baseBullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, bulletSpeedX, bulletSpeedY, power);
-            res.add(baseBullet);
-        }
-        return res;
+        ShootContext shootContext = new ShootContext(new StraightShootStrategy());
+        return shootContext.executeStrategy(this);
     }
 
     public double getDropRate() { return dropRate; }

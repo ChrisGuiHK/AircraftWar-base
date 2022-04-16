@@ -36,7 +36,7 @@ class PropBloodTest {
     @Test
     void effect() {
         System.out.println("**-- Test effect method executed --**");
-        heroAircraft.decreaseHp(70);
+        heroAircraft.setHp(70);
         propBlood.effect(heroAircraft);
         assertEquals(80,heroAircraft.getHp());
     }
