@@ -11,7 +11,6 @@ import edu.hitsz.prop.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.sql.SQLOutput;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
@@ -49,7 +48,7 @@ public class Game extends JPanel {
     private int bossGenTime = 0;
     private int time = 0;
 
-    private final int internal = 200;
+    private final int bossScoreThreshold = 200;
     /**
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
@@ -97,7 +96,7 @@ public class Game extends JPanel {
                 System.out.println(time);
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    if(score >= (bossGenTime + 1) * internal){
+                    if(score >= (bossGenTime + 1) * bossScoreThreshold){
                         bossGenTime += 1;
                         if(BossEnemy.isNull()){
                             enemyAircrafts.add(BossEnemy.getInstance());
@@ -289,7 +288,7 @@ public class Game extends JPanel {
         System.out.println("                  得分排行榜                  ");
         System.out.println("********************************************");
         for(User user:users){
-            String string = String.format("第%2d名：%s,%d,%s",user.getRate(),user.getUserName(),user.getScore(),user.getTime());
+            String string = String.format("第%2d名：%s,%3d,%s",user.getRate(),user.getUserName(),user.getScore(),user.getTime());
             System.out.println(string);
         }
         System.out.println("Game over.");

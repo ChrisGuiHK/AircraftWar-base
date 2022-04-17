@@ -8,10 +8,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ScatteringStrategy implements ShootStrategy{
+    private int shootNum;
+
+    public ScatteringStrategy(int shootNum){
+        this.shootNum = shootNum;
+    }
     @Override
     public List<BaseBullet> shoot(AbstractAircraft abstractAircraft) {
         List<BaseBullet> res = new LinkedList<>();
         BaseBullet baseBullet;
+        abstractAircraft.setShootNum(shootNum);
         int shootSpeedX,shootSpeedY;
         int x = abstractAircraft.getLocationX();
         int y = abstractAircraft.getLocationY() + abstractAircraft.getDirection()*2;

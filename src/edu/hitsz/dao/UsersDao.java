@@ -4,5 +4,5 @@ import java.util.ArrayList;
 
 public interface UsersDao {
     ArrayList<User> getAllUsers();
-    void addUser(User user) ;
+    void addUser(User user);
 }

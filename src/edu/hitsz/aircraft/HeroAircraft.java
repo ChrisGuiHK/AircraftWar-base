@@ -3,9 +3,7 @@ package edu.hitsz.aircraft;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.bullet.HeroBullet;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,7 +14,7 @@ public class HeroAircraft extends AbstractAircraft {
 
     /** 攻击方式 */
     private static volatile HeroAircraft heroAircraft;
-    private ShootContext shootContext = new ShootContext(new StraightShootStrategy());
+    private ShootContext shootContext = new ShootContext(new StraightShootStrategy(1));
 
     /**
      * @param locationX 英雄机位置x坐标

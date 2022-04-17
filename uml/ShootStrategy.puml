@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface ShootStrategy{
+    shoot(AbstractAircraft abstractAircraft):List<BaseBullet>
+}
+class ScatteringStrategy{
+    - shootNum:int
+    + ScatteringStrategy(int shootNum)
+    + shoot(AbstractAircraft abstractAircraft):List<BaseBullet>
+}
+class StraightShootStrategy{
+    - shootNum:int
+    + StraightShootStrategy(int shootNum)
+    + shoot(AbstractAircraft abstractAircraft):List<BaseBullet>
+}
+class NullShootStrategy{
+    + shoot(AbstractAircraft abstractAircraft):List<BaseBullet>
+}
+class ShootContext{
+    - shootStrategy:ShootStrategy
+    + ShootContext(ShootStrategy shootStrategy)
+    + setStrategy(ShootStrategy shootStrategy):void
+    + executeStrategy(AbstractAircraft abstractAircraft):List<BaseBullet>
+}
+
+ShootStrategy <|.. ScatteringStrategy
+ShootStrategy <|.. StraightShootStrategy
+ShootStrategy <|.. NullShootStrategy
+
+ShootStrategy <--o ShootContext
+
+@enduml

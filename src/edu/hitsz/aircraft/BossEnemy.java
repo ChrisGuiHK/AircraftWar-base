@@ -5,7 +5,6 @@ import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.*;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -52,7 +51,7 @@ public class BossEnemy extends AbstractAircraft{
 
     @Override
     public List<BaseBullet> shoot() {
-        ShootContext shootContext = new ShootContext(new ScatteringStrategy());
+        ShootContext shootContext = new ShootContext(new ScatteringStrategy(5));
         return shootContext.executeStrategy(this);
     }
 

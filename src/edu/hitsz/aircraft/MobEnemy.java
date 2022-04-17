@@ -3,7 +3,6 @@ package edu.hitsz.aircraft;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**

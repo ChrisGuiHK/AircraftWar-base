@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface UsersDao{
+    getAllUsers():ArrayList<User>
+    addUser(User user):void
+}
+
+class User{
+    + {static} id:int
+    - user:NameString
+    - time:String
+    - score:int
+    - rate:int
+    - userId:int
+
+    + User(String userName, int score)
+    + compareTo(User o):int
+    + getUserName():String
+    + getTime():String
+    + getScore():int
+    + getRate():int
+    + setRate(int rate):void
+    + setUserId():void
+    + equals(Object o):boolean
+    + hashCode():int
+}
+
+class UsersDaoImpl{
+    - users:TreeSet<User>
+    - path:String
+
+    - readInData():void
+    - writeBackData():void
+    + addUser(User user):void
+    + getAllUsers():ArrayList<User>
+}
+
+UsersDao <|.. UsersDaoImpl
+User <-- UsersDaoImpl
+
+@enduml

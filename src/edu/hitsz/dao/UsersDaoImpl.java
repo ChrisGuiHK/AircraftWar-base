@@ -11,8 +11,10 @@ public class UsersDaoImpl implements UsersDao{
     private void readInData(){
         try(ObjectInputStream ois = new ObjectInputStream((new FileInputStream(path)))){
             users = (TreeSet<User>) ois.readObject();
+            User.id = users.size();
         } catch (EOFException e) {
             users = new TreeSet<>();
+            User.id = 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,12 +31,13 @@ public class UsersDaoImpl implements UsersDao{
 
     @Override
     public void addUser(User user) {
-        int i = 1;
+        int rate = 1;
         readInData();
+        user.setUserId();
         users.add(user);
         for(User usr:users){
-            usr.setRate(i);
-            i += 1;
+            usr.setRate(rate);
+            rate += 1;
         }
         writeBackData();
     }

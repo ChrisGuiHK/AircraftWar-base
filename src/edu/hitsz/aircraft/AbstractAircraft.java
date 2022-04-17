@@ -28,10 +28,12 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         this.maxHp = hp;
     }
 
-    public int getHp() {
-        return hp;
-    }
+    public int getHp() {return hp;}
+    public int getShootNum() {return shootNum;}
+    public int getPower() {return power;}
+    public int getDirection() {return direction;}
 
+    public void setShootNum(int shootNum) {this.shootNum = shootNum;}
     public void setHp(int hp) {
         if(hp > maxHp) {
             this.hp = maxHp;
@@ -42,15 +44,6 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
             this.hp = hp;
         }
     }
-
-    public int getShootNum() {return shootNum;}
-
-    public void setShootNum(int shootNum) {this.shootNum = shootNum;}
-
-    public int getPower() {return power;}
-
-    public int getDirection() {return direction;}
-
     /**
      * 飞机射击方法，可射击对象必须实现
      * @return
