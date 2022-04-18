@@ -4,15 +4,14 @@
 interface UsersDao{
     getAllUsers():ArrayList<User>
     addUser(User user):void
+    deleteUser(int rate):boolean
 }
 
 class User{
-    + {static} id:int
     - user:NameString
-    - time:String
+    - time:Date
     - score:int
     - rate:int
-    - userId:int
 
     + User(String userName, int score)
     + compareTo(User o):int
@@ -21,7 +20,6 @@ class User{
     + getScore():int
     + getRate():int
     + setRate(int rate):void
-    + setUserId():void
     + equals(Object o):boolean
     + hashCode():int
 }
@@ -33,6 +31,7 @@ class UsersDaoImpl{
     - readInData():void
     - writeBackData():void
     + addUser(User user):void
+    + deleteUser(int rate):boolean
     + getAllUsers():ArrayList<User>
 }
 

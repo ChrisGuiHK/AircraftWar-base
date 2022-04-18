@@ -11,10 +11,8 @@ public class UsersDaoImpl implements UsersDao{
     private void readInData(){
         try(ObjectInputStream ois = new ObjectInputStream((new FileInputStream(path)))){
             users = (TreeSet<User>) ois.readObject();
-            User.id = users.size();
         } catch (EOFException e) {
             users = new TreeSet<>();
-            User.id = 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,13 +31,33 @@ public class UsersDaoImpl implements UsersDao{
     public void addUser(User user) {
         int rate = 1;
         readInData();
-        user.setUserId();
         users.add(user);
         for(User usr:users){
             usr.setRate(rate);
             rate += 1;
         }
         writeBackData();
+    }
+
+    @Override
+    public boolean deleteUser(int rate) {
+        int rateNum = 1;
+        readInData();
+        if(rate > users.size() || rate <= 0){
+            return false;
+        }
+        for(User user:users){
+            if(user.getRate() == rate){
+                users.remove(user);
+                break;
+            }
+        }
+        for(User user:users){
+            user.setRate(rateNum);
+            rateNum += 1;
+        }
+        writeBackData();
+        return true;
     }
 
     @Override
