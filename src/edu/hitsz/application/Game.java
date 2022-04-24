@@ -4,8 +4,6 @@ import edu.hitsz.aircraft.*;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.dao.User;
-import edu.hitsz.dao.UsersDao;
-import edu.hitsz.dao.UsersDaoImpl;
 import edu.hitsz.prop.*;
 
 import javax.swing.*;
@@ -48,7 +46,7 @@ public class Game extends JPanel {
     private int bossGenTime = 0;
     private int time = 0;
 
-    private final int bossScoreThreshold = 200;
+    private final int bossScoreThreshold = 500;
     /**
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
@@ -73,7 +71,6 @@ public class Game extends JPanel {
                 return t;
             }
         };
-
         //Scheduled 线程池，用于定时任务调度
         executorService = new ScheduledThreadPoolExecutor(1,gameThread);
 
@@ -137,11 +134,12 @@ public class Game extends JPanel {
                 // 游戏结束
                 executorService.shutdown();
                 gameOverFlag = true;
-                UsersDao usersDao = new UsersDaoImpl();
-                User user = new User("testUserName",score);
-                usersDao.addUser(user);
-                ArrayList<User> users = usersDao.getAllUsers();
-                getGameData(users);
+                synchronized (Main.OBJECT) {
+                    Main.OBJECT.notify();
+                }
+                if(Main.soundEffect) {
+                    new MusicThread("src/videos/game_over.wav").start();
+                }
             }
 
         };
@@ -170,7 +168,7 @@ public class Game extends JPanel {
     }
 
     private void shootAction() {
-        // TODO 敌机射击
+        // 敌机射击
         for(AbstractAircraft enemy : enemyAircrafts) {
             enemyBullets.addAll(enemy.shoot());
         }
@@ -207,7 +205,7 @@ public class Game extends JPanel {
      * 3. 英雄获得补给
      */
     private void crashCheckAction() {
-        // TODO 敌机子弹攻击英雄
+        // 敌机子弹攻击英雄
         for (BaseBullet bullet : enemyBullets) {
             if (bullet.notValid()) {
                 continue;
@@ -232,10 +230,13 @@ public class Game extends JPanel {
                 if (enemyAircraft.crash(bullet)) {
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
+                    if(Main.soundEffect) {
+                        new MusicThread("src/videos/bullet_hit.wav").start();
+                    }
                     enemyAircraft.setHp(enemyAircraft.getHp() - bullet.getPower());
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
-                        // TODO 获得分数，产生道具补给
+                        // 获得分数，产生道具补给
                         if(enemyAircraft instanceof MobEnemy){
                             score += 10;
                         } else if(enemyAircraft instanceof EliteEnemy){
@@ -243,8 +244,10 @@ public class Game extends JPanel {
                             if(r.nextDouble() < ((EliteEnemy) enemyAircraft).getDropRate()) {
                                 props.add(((EliteEnemy) enemyAircraft).createProp());
                             }
+                            score += 20;
                         } else if(enemyAircraft instanceof BossEnemy){
                             props.add(((BossEnemy) enemyAircraft).createProp());
+                            score += 100;
                         }
                     }
                 }
@@ -256,7 +259,7 @@ public class Game extends JPanel {
             }
         }
 
-        // Todo: 我方获得道具，道具生效
+        // 我方获得道具，道具生效
         for (AbstractProp prop : props) {
             if (prop.notValid()) {
                 continue;
@@ -283,17 +286,6 @@ public class Game extends JPanel {
         props.removeIf(AbstractFlyingObject::notValid);
     }
 
-    void getGameData(ArrayList<User> users){
-        System.out.println("********************************************");
-        System.out.println("                  得分排行榜                  ");
-        System.out.println("********************************************");
-        for(User user:users){
-            String string = String.format("第%2d名：%s,%3d,%s",user.getRate(),user.getUserName(),user.getScore(),user.getTime());
-            System.out.println(string);
-        }
-        System.out.println("Game over.");
-    }
-
     //***********************
     //      Paint 各部分
     //***********************
@@ -306,11 +298,15 @@ public class Game extends JPanel {
      */
     @Override
     public void paint(Graphics g) {
+        EnumMap<Main.GameMode,BufferedImage> backgroundImage = new EnumMap<>(Main.GameMode.class);
+        backgroundImage.put(Main.GameMode.EASY,ImageManager.BACKGROUND_IMAGE_EASY);
+        backgroundImage.put(Main.GameMode.NORMAL,ImageManager.BACKGROUND_IMAGE_NORMAL);
+        backgroundImage.put(Main.GameMode.HARD,ImageManager.BACKGROUND_IMAGE_HARD);
         super.paint(g);
 
         // 绘制背景,图片滚动
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop - Main.WINDOW_HEIGHT, null);
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop, null);
+        g.drawImage(backgroundImage.get(Main.gameMode), 0, this.backGroundTop - Main.WINDOW_HEIGHT, null);
+        g.drawImage(backgroundImage.get(Main.gameMode), 0, this.backGroundTop, null);
         this.backGroundTop += 1;
         if (this.backGroundTop == Main.WINDOW_HEIGHT) {
             this.backGroundTop = 0;
@@ -355,5 +351,5 @@ public class Game extends JPanel {
         g.drawString("LIFE:" + this.heroAircraft.getHp(), x, y);
     }
 
-
+    public int getScore() { return score;}
 }

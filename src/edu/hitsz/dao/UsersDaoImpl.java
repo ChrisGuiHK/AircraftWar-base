@@ -1,17 +1,25 @@
 package edu.hitsz.dao;
 
+import edu.hitsz.application.Main;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.TreeSet;
 
 public class UsersDaoImpl implements UsersDao{
     private TreeSet<User> users;
-    private final String path = "src/Users.dat";
+    private final static EnumMap<Main.GameMode,String> PATH = new EnumMap<>(Main.GameMode.class);
+    static{
+        PATH.put(Main.GameMode.EASY, "src/EASY.dat");
+        PATH.put(Main.GameMode.NORMAL,"src/NORMAL.dat");
+        PATH.put(Main.GameMode.HARD,"src/HARD.dat");
+    }
 
     private void readInData(){
-        try(ObjectInputStream ois = new ObjectInputStream((new FileInputStream(path)))){
+        try(ObjectInputStream ois = new ObjectInputStream((new FileInputStream(PATH.get(Main.gameMode))))){
             users = (TreeSet<User>) ois.readObject();
-        } catch (EOFException e) {
+        } catch (IOException e) {
             users = new TreeSet<>();
         } catch (Exception e) {
             e.printStackTrace();
@@ -20,7 +28,7 @@ public class UsersDaoImpl implements UsersDao{
 
     private void writeBackData() {
         try{
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(PATH.get(Main.gameMode)));
             oos.writeObject(users);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,6 +71,6 @@ public class UsersDaoImpl implements UsersDao{
     @Override
     public ArrayList<User> getAllUsers() {
         readInData();
-        return new ArrayList<User>(users);
+        return new ArrayList<>(users);
     }
 }

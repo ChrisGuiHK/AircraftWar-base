@@ -8,14 +8,12 @@ import java.util.List;
 import java.util.Random;
 
 public class EliteEnemy extends AbstractAircraft{
-
-
     private double dropRate = 0.6;  //道具掉落率
 
-    public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
+    public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int power) {
         super(locationX, locationY, speedX, speedY, hp);
+        this.power = power;
         shootNum = 1;
-        power = 10;
         direction = 1;
     }
 

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class StraightShootStrategy implements ShootStrategy{
-    private int shootNum;
+    private final int shootNum;
     public StraightShootStrategy(int shootNum){
         this.shootNum = shootNum;
     }
@@ -24,7 +24,7 @@ public class StraightShootStrategy implements ShootStrategy{
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
             if(!(abstractAircraft instanceof HeroAircraft)) {
-                baseBullet = new EnemyBullet(x + (i * 2 - abstractAircraft.getShootNum() + 1) * 10, y,
+                baseBullet = new EnemyBullet(x + (i * 2 - abstractAircraft.getShootNum() + 1) * 10 + 5 * abstractAircraft.getSpeedX(), y,
                         0, abstractAircraft.getSpeedY() + 5 * abstractAircraft.getDirection(),
                         abstractAircraft.getPower());
                 res.add(baseBullet);

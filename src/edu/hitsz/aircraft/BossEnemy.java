@@ -2,6 +2,7 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
+import edu.hitsz.application.MusicThread;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.*;
 
@@ -11,11 +12,12 @@ import java.util.Random;
 public class BossEnemy extends AbstractAircraft{
 
     private static volatile BossEnemy bossEnemy;
+    private static volatile MusicThread thread;
 
     private BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
         shootNum = 5;
-        power = 30;
+        power = 50;
         direction = 1;
     }
 
@@ -23,9 +25,15 @@ public class BossEnemy extends AbstractAircraft{
         if(bossEnemy == null){
             synchronized (BossEnemy.class){
                 if(bossEnemy == null){
+                    if(Main.soundEffect){
+                        Main.backgroundMusic.setFlag(true);
+                        thread = new MusicThread("src/videos/bgm_boss.wav");
+                        thread.setLoop(true);
+                        thread.start();
+                    }
                     bossEnemy = new BossEnemy(
-                            (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth()))*1,
-                            (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
+                            (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth())),
+                            (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
                             3,
                             0,
                             500);
@@ -46,6 +54,15 @@ public class BossEnemy extends AbstractAircraft{
     @Override
     public void vanish() {
         super.vanish();
+        if(Main.soundEffect) {
+            thread.setFlag(true);
+            try{
+                Main.backgroundMusic = new MusicThread("src/videos/bgm.wav");
+                Main.backgroundMusic.start();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         bossEnemy = null;
     }
 

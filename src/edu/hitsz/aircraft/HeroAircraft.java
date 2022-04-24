@@ -2,6 +2,7 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
+import edu.hitsz.application.MusicThread;
 import edu.hitsz.bullet.BaseBullet;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class HeroAircraft extends AbstractAircraft {
 
     /** 攻击方式 */
     private static volatile HeroAircraft heroAircraft;
-    private ShootContext shootContext = new ShootContext(new StraightShootStrategy(1));
+    private final ShootContext shootContext = new ShootContext(new StraightShootStrategy(1));
 
     /**
      * @param locationX 英雄机位置x坐标
@@ -36,7 +37,7 @@ public class HeroAircraft extends AbstractAircraft {
                 if(heroAircraft == null){
                     heroAircraft = new HeroAircraft(Main.WINDOW_WIDTH / 2,
                             Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight() ,
-                            0, 0, 100);
+                            0, 0, 1000);
                 }
             }
         }
