@@ -3,15 +3,21 @@ package edu.hitsz.aircraft;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.*;
+import edu.hitsz.strategy.ShootContext;
+import edu.hitsz.strategy.StraightShootStrategy;
 
 import java.util.List;
 import java.util.Random;
 
 public class EliteEnemy extends AbstractAircraft{
+
+    private ShootContext shootContext;
     private double dropRate = 0.6;  //道具掉落率
 
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int power) {
         super(locationX, locationY, speedX, speedY, hp);
+        this.shootContext = new ShootContext(new StraightShootStrategy(1));
+        this.score = 20;
         this.power = power;
         shootNum = 1;
         direction = 1;
@@ -41,7 +47,6 @@ public class EliteEnemy extends AbstractAircraft{
 
     @Override
     public List<BaseBullet> shoot() {
-        ShootContext shootContext = new ShootContext(new StraightShootStrategy(1));
         return shootContext.executeStrategy(this);
     }
 

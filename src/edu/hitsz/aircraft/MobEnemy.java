@@ -2,6 +2,8 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.strategy.NullShootStrategy;
+import edu.hitsz.strategy.ShootContext;
 
 import java.util.List;
 
@@ -13,8 +15,12 @@ import java.util.List;
  */
 public class MobEnemy extends AbstractAircraft {
 
+    private ShootContext shootContext;
+
     public MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
+        this.score = 10;
+        shootContext = new ShootContext(new NullShootStrategy());
     }
 
     @Override
@@ -28,7 +34,6 @@ public class MobEnemy extends AbstractAircraft {
 
     @Override
     public List<BaseBullet> shoot() {
-        ShootContext shootContext = new ShootContext(new NullShootStrategy());
         return shootContext.executeStrategy(this);
     }
 

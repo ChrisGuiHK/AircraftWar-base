@@ -1,8 +1,8 @@
 package edu.hitsz.application;
 
 import edu.hitsz.dao.User;
-import panel.Board;
-import panel.UserMenu;
+import UI.Board;
+import UI.UserMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +15,14 @@ public class Main {
 
     public static final int WINDOW_WIDTH = 512;
     public static final int WINDOW_HEIGHT = 768;
-    public static final Object OBJECT = new Object();
+    public static final Object LOCK = new Object();
     public static GameMode gameMode;
     public static boolean soundEffect;
     public static MusicThread backgroundMusic;
     public enum GameMode{
         /**
          * 枚举类中定义游戏难度EASY，NORMAL，HARD
+         *
          */
         EASY,NORMAL,HARD
     }
@@ -44,9 +45,9 @@ public class Main {
         frame.setContentPane(jPanel);
         frame.setVisible(true);
 
-        synchronized (OBJECT){
+        synchronized (LOCK){
             try{
-                OBJECT.wait();
+                LOCK.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -54,18 +55,25 @@ public class Main {
 
         frame.remove(jPanel);
 
-        Game game = new Game();
+        Game game;
+        if(gameMode == GameMode.EASY){
+            game = new EasyGame();
+        }else if(gameMode == GameMode.NORMAL){
+            game = new NormalGame();
+        }else{
+            game = new HardGame();
+        }
         frame.setContentPane(game);
         frame.setVisible(true);
         game.action();
         if(Main.soundEffect) {
-            backgroundMusic = new MusicThread("src/videos/bgm.wav");
+            backgroundMusic = new MusicThread("src/sounds/bgm.wav");
             backgroundMusic.setLoop(true);
             backgroundMusic.start();
         }
-        synchronized (OBJECT){
+        synchronized (LOCK){
             try{
-                OBJECT.wait();
+                LOCK.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -6,14 +6,14 @@ class EliteEnemy{}
 EliteEnemy --> AbstractProp
 EliteEnemy --> PropFactory
 
-abstract class AbstractProp
-{
-    + {static}genBloodRate:double
-    + {static}genBombRate:double
-    + {static}genBulletRate:double
+abstract class AbstractProp{
+    - {static} genBloodRate:double
+    - {static} genBombRate:double
+    - {static} genBulletRate:double
+
     + AbstractProp(int locationX, int locationY, int speedX, int speedY)
     + forward():void
-    + {abstract} effect(Object obj):void
+    + {abstract} effect():int
 }
 
 interface PropFactory
@@ -33,20 +33,28 @@ PropBlood <.. PropBloodFactory
 PropBomb <.. PropBombFactory
 PropBullet <.. PropBulletFactory
 
-class PropBlood {
+class PropBlood{
     - recoverNum:int
+
     + PropBlood(int locationX, int locationY, int speedX, int speedY)
-    + effect(Object obj):void
+    + effect():int
 }
 
-class PropBomb {
+class PropBomb{
+    - flyObjects:List<AbstractFlyingObject>
+
     + PropBomb(int locationX, int locationY, int speedX, int speedY)
-    + effect(Object obj):void
+    + effect():int
+    + addFlyingObject(AbstractFlyingObject abstractFlyingObject):void
+    + deleteFlyingObject(AbstractFlyingObject abstractFlyingObject):void
+    + notifyAll():int
 }
 
-class PropBullet {
+class PropBullet{
+    - {static} TIMER:Timer
+
     + PropBullet(int locationX, int locationY, int speedX, int speedY)
-    + effect(Object obj):void
+    + effect():int
 }
 
 class PropBloodFactory {

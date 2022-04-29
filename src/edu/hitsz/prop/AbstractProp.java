@@ -25,5 +25,5 @@ public abstract class AbstractProp extends AbstractFlyingObject {
     /**
      * 道具效果，子类必须实现
      */
-    public abstract void effect(Object obj);
+    public abstract int effect();
 }

@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class BossEnemy{
+    - {static} bossEnemy:BossEnemy
+    - thread:MusicThread
+    - shootContext:ShootContext
+    - {static} growTime:int
+
+    - BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int power)
+    + {static} getInstance(boolean ifGrow):BossEnemy
+    + {static} isNull:boolean
+    + vanish():void
+    + shoot():List<BaseBullet>
+    + createProp():AbstractProp
+}
+
+class BossEnemyFactory{
+    - {static} ifStrength:boolean
+
+    + createAircraft():AbstractAircraft
+    + {static} setIfStrength(boolean ifStrength):void
+}
+
+BossEnemyFactory --> BossEnemy
+BossEnemy --> BossEnemy
+
+@enduml

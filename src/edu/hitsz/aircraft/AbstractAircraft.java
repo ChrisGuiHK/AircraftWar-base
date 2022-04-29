@@ -2,6 +2,8 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.prop.Clear;
+import edu.hitsz.strategy.ShootContext;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  *
  * @author hitsz
  */
-public abstract class AbstractAircraft extends AbstractFlyingObject {
+public abstract class AbstractAircraft extends AbstractFlyingObject implements Clear {
     /**
      * 生命值
      */
@@ -21,6 +23,7 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     protected int shootNum = 0;     //子弹一次发射数量
     protected int power = 0;       //子弹伤害
     protected int direction = 0;  //子弹射击方向 (向上发射：1，向下发射：-1)
+    protected int score = 0;
 
     public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY);
@@ -32,6 +35,7 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     public int getShootNum() {return shootNum;}
     public int getPower() {return power;}
     public int getDirection() {return direction;}
+    public int getScore() { return score; }
 
     public void setShootNum(int shootNum) {this.shootNum = shootNum;}
     public void setHp(int hp) {
@@ -52,6 +56,11 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      */
     public abstract List<BaseBullet> shoot();
 
+    @Override
+    public final int clear() {
+        vanish();
+        return getScore();
+    }
 }
 
 

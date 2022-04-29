@@ -2,8 +2,10 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
-import edu.hitsz.application.MusicThread;
 import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.strategy.ShootContext;
+import edu.hitsz.strategy.ShootStrategy;
+import edu.hitsz.strategy.StraightShootStrategy;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class HeroAircraft extends AbstractAircraft {
 
     /** 攻击方式 */
     private static volatile HeroAircraft heroAircraft;
-    private final ShootContext shootContext = new ShootContext(new StraightShootStrategy(1));
+    private static final ShootContext shootContext = new ShootContext(new StraightShootStrategy(1));
 
     /**
      * @param locationX 英雄机位置x坐标

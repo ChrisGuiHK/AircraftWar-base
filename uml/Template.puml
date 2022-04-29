@@ -1,0 +1,89 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract Game{
+    - backGroundTop:int
+    - executorService:ScheduledExecutorService
+    - timeInterval:int
+    - heroAircraft:HeroAircraft
+    - enemyAircrafts:List<AbstractAircraft>
+    - heroBullets:List<BaseBullet>
+    - enemyBullets:List<BaseBullet>
+    - props:List<AbstractProp>
+    - gameOverFlag:boolean
+    - bossGenTime:int
+    - enhancedTime:int
+    - score:int
+    - time:int
+    - cycleTime:int
+    # enhancedInterval:int
+    # originEnemyMaxNum:int
+    # enemyNumberIncreaseRate:double
+    # eliteEnemyRate:double
+    # eliteEnemyIncreaseRate:double
+    # bossScoreThreshold:int
+    # bossScoreRate:double
+    # enhancedEliteRate:double
+    # enhancedMobRate:double
+    # intervalTimeRate:double
+    # heroShootInterval:int
+    # enemyShootInterval:int
+    # ifGenerateBoss:boolean
+    # enemyMaxNumber:int
+    # cycleDuration:int
+
+    + Game()
+    + {abstract} initialize():void
+    + modeInitialize():void
+    + paint(Graphics g):void
+    + {abstract} getBackGroundImage():Image
+    + action():void
+    + gameOverOperation():void
+    + getScore():int
+    - timeCountAndNewCycleJudge():boolean
+    - shootCycleJudge(int shootCycleDuration):boolean
+    - shootAction():void
+    - bulletsMoveAction():void
+    - aircraftsMoveAction():void
+    - propsMoveAction():void
+    - crashCheckAction():void
+    - postProcessAction():void
+    - paintImageWithPositionRevised(Graphics g, List<? extends AbstractFlyingObject> objects):void
+    - paintScoreAndLife(Graphics g):void
+
+}
+
+class EasyGame{
+    + initialize():void
+    + getBackGroundImage():Image
+}
+
+class NormalGame{
+    - enhancedTime:int
+    - timer:Timer
+
+    + initialize():void
+    + modeInitialize():void
+    + gameOverOperation():void
+    + getBackGroundImage():Image
+}
+
+class HardGame{
+    - enhancedTime:int
+    - timer:Timer
+
+    + initialize():void
+    + modeInitialize():void
+    + gameOverOperation():void
+    + getBackGroundImage():Image
+}
+
+Game <|-- EasyGame
+Game <|-- NormalGame
+Game <|-- HardGame
+
+class Main{}
+
+Game <.. Main
+
+@enduml

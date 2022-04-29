@@ -4,6 +4,8 @@ import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
 
 public class MobEnemyFactory implements AircraftFactory{
+    private static double rate = 1;
+    private static int hp = 30;
     @Override
     public AbstractAircraft createAircraft() {
         return new MobEnemy(
@@ -11,7 +13,14 @@ public class MobEnemyFactory implements AircraftFactory{
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
                 0,
                 10,
-                30
+                (int) (hp * rate)
         );
+    }
+
+    public static void setRate(double rate) {
+        MobEnemyFactory.rate = rate;
+    }
+    public static void setHp(int hp) {
+        MobEnemyFactory.hp = hp;
     }
 }

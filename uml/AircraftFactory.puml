@@ -6,15 +6,25 @@ class Game{}
 Game --> AircraftFactory
 Game --> AbstractAircraft
 
-abstract class AbstractAircraft
-{
-	# maxHp:int
+abstract AbstractAircraft{
+    # maxHp:int
     # hp:int
+    # shootNum:int
+    # power:int
+    # direction:int
+    # score:int
+
     + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
-    + decreaseHp(int decrease):void
     + getHp():int
+    + getShootNum():int
+    + getPower():int
+    + getDirection():int
+    + getScore():int
+    + setShootNum(int shootNum):void
+    + setHp(int hp):void
     + {abstract} shoot():List<BaseBullet>
- }
+    + clear():int
+}
 
 interface AircraftFactory
 {
@@ -33,42 +43,65 @@ MobEnemy <.. MobEnemyFactory
 EliteEnemy <.. EliteEnemyFactory
 BossEnemy <.. BossEnemyFactory
 
-class MobEnemy {
+class MobEnemy{
+    - ShootContext shootContext;
+
     + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
     + shoot():List<BaseBullet>
 }
 
-class EliteEnemy {
-    - shootNum:int
-    - power:int
-    - direction:int
-    - bulletSpeedX:int
-    - bulletSpeedY:int
+class EliteEnemy{
+    - shootContext:ShootContext
     - dropRate:double
-    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int bulletSpeedX, int bulletSpeedY)
+
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int power)
     + forward():void
     + createProp():AbstractProp
     + shoot():List<BaseBullet>
     + getDropRate():double
 }
 
-class BossEnemy {
-    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
-    + forward():void
+class BossEnemy{
+    - {static} bossEnemy:BossEnemy
+    - thread:MusicThread
+    - shootContext:ShootContext
+    - {static} growTime:int
+
+    - BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int power)
+    + {static} getInstance(boolean ifGrow):BossEnemy
+    + {static} isNull:boolean
+    + vanish():void
     + shoot():List<BaseBullet>
+    + createProp():AbstractProp
 }
 
 class MobEnemyFactory {
+    - {static} rate:double
+    - {static} hp:int
+
     + createAircraft():AbstractAircraft
+    + {static} setRate(double rate):void
+    + {static} setHp(int hp):void
 }
 
 class EliteEnemyFactory {
+    - {static} rate:double
+    - {static} hp:int
+    - {static} power:int
+
+    - random():int
     + createAircraft():AbstractAircraft
+    + {static} setRate(double rate):void
+    + {static} setHp(int hp):void
+    + {static} setPower(int power):void
 }
 
-class BossEnemyFactory {
+class BossEnemyFactory{
+    - {static} ifStrength:boolean
+
     + createAircraft():AbstractAircraft
+    + {static} setIfStrength(boolean ifStrength):void
 }
 
 @enduml

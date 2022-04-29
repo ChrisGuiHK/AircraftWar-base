@@ -1,0 +1,93 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class PropBomb{
+    - flyObjects:List<AbstractFlyingObject>
+
+    + PropBomb(int locationX, int locationY, int speedX, int speedY)
+    + effect():int
+    + addFlyingObject(AbstractFlyingObject abstractFlyingObject):void
+    + deleteFlyingObject(AbstractFlyingObject abstractFlyingObject):void
+    + notifyAll():int
+}
+
+interface clear{
+    clear():int
+}
+
+class Game{}
+
+abstract class AbstractFlyingObject{
+    # locationX:int
+    # locationY:int
+    # speedX:int
+    # speedY:int
+    # image:BufferedImage
+    # width:int
+    # height:int
+    # isValid:boolean
+
+    + AbstractFlyingObject(int locationX, int locationY, int speedX, int speedY)
+    + forward():void
+    + crash(AbstractFlyingObject abstractFlyingObject):boolean
+    + getLocationX():int
+    + getLocationY():int
+    + setLocation(double locationX, double locationY):void
+    + getSpeedX():int
+    + getSpeedY():int
+    + getImage():BufferedImage
+    + getWidth():int
+    + getHeight():int
+    + notValid():boolean
+    + vanish():void
+    + clear():int
+}
+
+abstract AbstractAircraft{
+    # maxHp:int
+    # hp:int
+    # shootNum:int
+    # power:int
+    # direction:int
+    # score:int
+
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + getHp():int
+    + getShootNum():int
+    + getPower():int
+    + getDirection():int
+    + getScore():int
+    + setShootNum(int shootNum):void
+    + setHp(int hp):void
+    + {abstract} shoot():List<BaseBullet>
+    + clear():int
+}
+
+abstract class BaseBullet{
+    - power:int
+
+    + BaseBullet(int locationX, int locationY, int speedX, int speedY, int power)
+    + forward():void
+    + getPower():int
+}
+
+abstract class AbstractProp{
+    - {static} genBloodRate:double
+    - {static} genBombRate:double
+    - {static} genBulletRate:double
+
+    + AbstractProp(int locationX, int locationY, int speedX, int speedY)
+    + forward():void
+    + {abstract} effect():int
+}
+
+PropBomb <.. Game
+
+clear <--o PropBomb
+clear <|.. AbstractFlyingObject
+
+AbstractFlyingObject <|-- AbstractAircraft
+AbstractFlyingObject <|-- AbstractProp
+AbstractFlyingObject <|-- BaseBullet
+
+@enduml

@@ -11,9 +11,9 @@ public class UsersDaoImpl implements UsersDao{
     private TreeSet<User> users;
     private final static EnumMap<Main.GameMode,String> PATH = new EnumMap<>(Main.GameMode.class);
     static{
-        PATH.put(Main.GameMode.EASY, "src/EASY.dat");
-        PATH.put(Main.GameMode.NORMAL,"src/NORMAL.dat");
-        PATH.put(Main.GameMode.HARD,"src/HARD.dat");
+        PATH.put(Main.GameMode.EASY, "src/data/EASY.dat");
+        PATH.put(Main.GameMode.NORMAL,"src/data/NORMAL.dat");
+        PATH.put(Main.GameMode.HARD,"src/data/HARD.dat");
     }
 
     private void readInData(){

@@ -6,20 +6,19 @@ import edu.hitsz.application.MusicThread;
 
 public class PropBlood extends AbstractProp{
 
-    private int recoverNum = 50;
+    private int recoverNum = 100;
 
     public PropBlood(int locationX, int locationY, int speedX, int speedY) {
         super(locationX, locationY, speedX, speedY);
     }
 
     @Override
-    public void effect(Object obj) {
-        if(obj instanceof HeroAircraft){
-            if(Main.soundEffect) {
-                new MusicThread("src/videos/get_supply.wav").start();
-            }
-            HeroAircraft heroAircraft = (HeroAircraft) obj;
-            heroAircraft.setHp(recoverNum + heroAircraft.getHp());
+    public int effect() {
+        if(Main.soundEffect) {
+            new MusicThread("src/sounds/get_supply.wav").start();
         }
+        HeroAircraft heroAircraft = HeroAircraft.getInstance();
+        heroAircraft.setHp(recoverNum + heroAircraft.getHp());
+        return 0;
     }
 }

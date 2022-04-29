@@ -1,8 +1,8 @@
 package edu.hitsz.prop;
 
 import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.aircraft.ScatteringStrategy;
-import edu.hitsz.aircraft.StraightShootStrategy;
+import edu.hitsz.strategy.ScatteringStrategy;
+import edu.hitsz.strategy.StraightShootStrategy;
 import edu.hitsz.application.Main;
 import edu.hitsz.application.MusicThread;
 
@@ -16,18 +16,17 @@ public class PropBullet extends AbstractProp{
     }
 
     @Override
-    public void effect(Object obj) {
-        if(obj instanceof HeroAircraft){
-            HeroAircraft heroAircraft = (HeroAircraft) obj;
-            if(Main.soundEffect) {
-                new MusicThread("src/videos/bullet.wav").start();
-            }
-            if(TIMER.isRunning()){
-                TIMER.stop();
-            }
-            heroAircraft.setStrategy(new ScatteringStrategy(heroAircraft.getShootNum() + 2));
-            TIMER.setRepeats(false);
-            TIMER.start();
+    public int effect() {
+        HeroAircraft heroAircraft = HeroAircraft.getInstance();
+        if(Main.soundEffect) {
+            new MusicThread("src/sounds/bullet.wav").start();
         }
+        if(TIMER.isRunning()){
+            TIMER.stop();
+        }
+        heroAircraft.setStrategy(new ScatteringStrategy(Math.min(heroAircraft.getShootNum() + 2,7)));
+        TIMER.setRepeats(false);
+        TIMER.start();
+        return 0;
     }
 }
