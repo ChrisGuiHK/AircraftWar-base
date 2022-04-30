@@ -41,7 +41,7 @@ class PropBlood{
 }
 
 class PropBomb{
-    - flyObjects:List<AbstractFlyingObject>
+    - flyObjects:List<Clear>
 
     + PropBomb(int locationX, int locationY, int speedX, int speedY)
     + effect():int

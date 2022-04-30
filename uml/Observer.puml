@@ -2,7 +2,7 @@
 'https://plantuml.com/class-diagram
 
 class PropBomb{
-    - flyObjects:List<AbstractFlyingObject>
+    - flyObjects:List<Clear>
 
     + PropBomb(int locationX, int locationY, int speedX, int speedY)
     + effect():int
@@ -15,7 +15,7 @@ interface clear{
     clear():int
 }
 
-class Game{}
+abstract class BaseGame{}
 
 abstract class AbstractFlyingObject{
     # locationX:int
@@ -43,7 +43,7 @@ abstract class AbstractFlyingObject{
     + clear():int
 }
 
-abstract AbstractAircraft{
+abstract class AbstractAircraft{
     # maxHp:int
     # hp:int
     # shootNum:int
@@ -81,7 +81,7 @@ abstract class AbstractProp{
     + {abstract} effect():int
 }
 
-PropBomb <.. Game
+PropBomb <.. BaseGame
 
 clear <--o PropBomb
 clear <|.. AbstractFlyingObject

@@ -102,7 +102,7 @@ class EliteEnemy{
 
 class HeroAircraft{
     - {static} heroAircraft:HeroAircraft
-    - {static} shootContext:ShootContext
+    - {static} CONTEXT:ShootContext
 
     - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + {static} getInstance:HeroAircraft
@@ -143,7 +143,7 @@ class PropBlood{
 }
 
 class PropBomb{
-    - flyObjects:List<AbstractFlyingObject>
+    - flyObjects:List<Clear>
 
     + PropBomb(int locationX, int locationY, int speedX, int speedY)
     + effect():int
@@ -162,5 +162,71 @@ class PropBullet{
 AbstractProp <|-- PropBlood
 AbstractProp <|-- PropBomb
 AbstractProp <|-- PropBullet
+
+interface AircraftFactory
+{
+    createAircraft():AbstractAircraft
+}
+
+class MobEnemyFactory {
+    - {static} rate:double
+    - {static} hp:int
+
+    + createAircraft():AbstractAircraft
+    + {static} setRate(double rate):void
+    + {static} setHp(int hp):void
+}
+
+class EliteEnemyFactory {
+    - {static} rate:double
+    - {static} hp:int
+    - {static} power:int
+
+    - random():int
+    + createAircraft():AbstractAircraft
+    + {static} setRate(double rate):void
+    + {static} setHp(int hp):void
+    + {static} setPower(int power):void
+}
+
+class BossEnemyFactory{
+    - {static} ifStrength:boolean
+
+    + createAircraft():AbstractAircraft
+    + {static} setIfStrength(boolean ifStrength):void
+}
+
+AircraftFactory <|.. MobEnemyFactory
+AircraftFactory <|.. EliteEnemyFactory
+AircraftFactory <|.. BossEnemyFactory
+
+MobEnemy <.. MobEnemyFactory
+EliteEnemy <.. EliteEnemyFactory
+BossEnemy <.. BossEnemyFactory
+
+interface PropFactory
+{
+    createProp(AbstractAircraft abstractAircraft):AbstractProp
+}
+
+class PropBloodFactory {
+    + createProp(AbstractAircraft abstractAircraft):AbstractProp
+}
+
+class PropBombFactory {
+    + createProp(AbstractAircraft abstractAircraft):AbstractProp
+}
+
+class PropBulletFactory {
+    + createProp(AbstractAircraft abstractAircraft):AbstractProp
+}
+
+PropFactory <|.. PropBloodFactory
+PropFactory <|.. PropBombFactory
+PropFactory <|.. PropBulletFactory
+
+PropBlood <.. PropBloodFactory
+PropBomb <.. PropBombFactory
+PropBullet <.. PropBulletFactory
 
 @enduml

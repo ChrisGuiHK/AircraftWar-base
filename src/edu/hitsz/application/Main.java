@@ -55,13 +55,13 @@ public class Main {
 
         frame.remove(jPanel);
 
-        Game game;
+        BaseGame game;
         if(gameMode == GameMode.EASY){
-            game = new EasyGame();
+            game = new EasyBaseGame();
         }else if(gameMode == GameMode.NORMAL){
-            game = new NormalGame();
+            game = new NormalBaseGame();
         }else{
-            game = new HardGame();
+            game = new HardBaseGame();
         }
         frame.setContentPane(game);
         frame.setVisible(true);

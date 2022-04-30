@@ -1,7 +1,7 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract Game{
+abstract class BaseGame{
     - backGroundTop:int
     - executorService:ScheduledExecutorService
     - timeInterval:int
@@ -32,7 +32,7 @@ abstract Game{
     # enemyMaxNumber:int
     # cycleDuration:int
 
-    + Game()
+    + BaseGame()
     + {abstract} initialize():void
     + modeInitialize():void
     + paint(Graphics g):void
@@ -78,12 +78,12 @@ class HardGame{
     + getBackGroundImage():Image
 }
 
-Game <|-- EasyGame
-Game <|-- NormalGame
-Game <|-- HardGame
+BaseGame <|-- EasyGame
+BaseGame <|-- NormalGame
+BaseGame <|-- HardGame
 
 class Main{}
 
-Game <.. Main
+BaseGame <.. Main
 
 @enduml

@@ -1,12 +1,12 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Game{}
+abstract class BaseGame{}
 
-Game --> AircraftFactory
-Game --> AbstractAircraft
+BaseGame --> AircraftFactory
+BaseGame --> AbstractAircraft
 
-abstract AbstractAircraft{
+abstract class AbstractAircraft{
     # maxHp:int
     # hp:int
     # shootNum:int

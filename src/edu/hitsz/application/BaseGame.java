@@ -17,7 +17,7 @@ import java.util.concurrent.*;
  *
  * @author hitsz
  */
-public abstract class Game extends JPanel {
+public abstract class BaseGame extends JPanel {
 
     private int backGroundTop = 0;
 
@@ -66,7 +66,7 @@ public abstract class Game extends JPanel {
     private int cycleTime = 0;
 
 
-    public Game() {
+    public BaseGame() {
         initialize();
         heroAircraft = HeroAircraft.getInstance();
 

@@ -3,7 +3,7 @@
 
 class HeroAircraft{
     - {static} heroAircraft:HeroAircraft
-    - {static} shootContext:ShootContext
+    - {static} CONTEXT:ShootContext
 
     - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + {static} getInstance:HeroAircraft
@@ -12,9 +12,9 @@ class HeroAircraft{
     + shoot():List<BaseBullet>
 }
 
-class Game{}
+abstract class BaseGame{}
 
-Game --> HeroAircraft
+BaseGame --> HeroAircraft
 HeroAircraft --> HeroAircraft
 
 @enduml

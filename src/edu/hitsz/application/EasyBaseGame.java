@@ -2,7 +2,7 @@ package edu.hitsz.application;
 
 import java.awt.*;
 
-public class EasyGame extends Game{
+public class EasyBaseGame extends BaseGame {
 
     @Override
     public void initialize() {

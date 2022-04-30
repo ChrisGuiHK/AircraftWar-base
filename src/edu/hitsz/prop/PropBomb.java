@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PropBomb extends AbstractProp{
 
-    private List<AbstractFlyingObject> flyingObjects = new LinkedList<>();
+    private List<Clear> flyingObjects = new LinkedList<>();
 
     public PropBomb(int locationX, int locationY, int speedX, int speedY) {
         super(locationX, locationY, speedX, speedY);
@@ -33,7 +33,7 @@ public class PropBomb extends AbstractProp{
 
     public int notifyList(){
         int score = 0;
-        for(AbstractFlyingObject flyingObject : flyingObjects){
+        for(Clear flyingObject : flyingObjects){
             score += flyingObject.clear();
         }
         return score;

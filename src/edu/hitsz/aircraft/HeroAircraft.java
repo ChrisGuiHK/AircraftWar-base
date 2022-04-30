@@ -17,7 +17,7 @@ public class HeroAircraft extends AbstractAircraft {
 
     /** 攻击方式 */
     private static volatile HeroAircraft heroAircraft;
-    private static final ShootContext shootContext = new ShootContext(new StraightShootStrategy(1));
+    private static final ShootContext CONTEXT = new ShootContext(new StraightShootStrategy(1));
 
     /**
      * @param locationX 英雄机位置x坐标
@@ -47,7 +47,7 @@ public class HeroAircraft extends AbstractAircraft {
     }
 
     public void setStrategy(ShootStrategy shootStrategy) {
-        shootContext.setStrategy(shootStrategy);
+        CONTEXT.setStrategy(shootStrategy);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class HeroAircraft extends AbstractAircraft {
      * @return 射击出的子弹List
      */
     public List<BaseBullet> shoot() {
-        return shootContext.executeStrategy(this);
+        return CONTEXT.executeStrategy(this);
     }
 
 }

@@ -7,7 +7,7 @@ import edu.hitsz.aircraft.MobEnemyFactory;
 import javax.swing.*;
 import java.awt.*;
 
-public class NormalGame extends Game{
+public class NormalBaseGame extends BaseGame {
 
     private int enhancedTime = 0;
     private Timer timer;
